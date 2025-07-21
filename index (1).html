@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PPF Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    select,
+    input,
+    button {
+      padding: 8px;
+      margin: 10px;
+      width: 220px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #0077cc;
+    }
+  </style>
+</head>
+
+<body>
+  <h1> PPF(Pound Per Foot) Calculator</h1>
+
+  <label>Outer Diameter (OD):</label><br>
+  <select id="od_mm">
+    <option value="21.30">1/2" (21.3 mm)</option>
+    <option value="26.70">3/4" (26.7 mm)</option>
+    <option value="33.40">1" (33.4 mm)</option>
+    <option value="42.20">1 1/4" (42.2 mm)</option>
+    <option value="48.30">1 1/2" (48.3 mm)</option>
+    <option value="60.30">2" & 2 3/8" (60.3 mm)</option>
+    <option value="73.00">2 7/8" (73.0 mm)</option>
+    <option value="76.10">2 1/2" (76.1 mm)</option>
+    <option value="88.90">3" (88.9 mm)</option>
+    <option value="114.30">4" (114.3 mm)</option>
+    <option value="141.3">5" (141.3 mm)</option>
+    <option value="168.30">6" (168.3 mm)</option>
+    <option value="219.1">8" (219.1 mm)</option>
+    <option value="273.0">10" (273.0 mm)</option>
+    <option value="323.9">12" (323.9 mm)</option>
+  </select><br>
+
+  <label>Wall Thickness (WT) - inch:</label><br>
+  <input type="number" id="wt" step="0.001" placeholder="Exp: 0.154"><br>
+
+  <button onclick="calculatePPF()">Exacute</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function calculatePPF() {
+      const od_mm = parseFloat(document.getElementById("od_mm").value);
+      const wt = parseFloat(document.getElementById("wt").value);
+
+      if (isNaN(wt)) {
+        document.getElementById("result").innerText = "Please enter wallthickness as milimeter.";
+        return;
+      }
+
+      const od_inch = od_mm / 25.4;
+
+      if (wt >= od_inch / 2) {
+        document.getElementById("result").innerText = "Invalid Entry.";
+        return;
+      }
+
+      const ppf = (od_inch - wt) * wt * 10.68;
+      const roundedPPF = Math.ceil(ppf * 100) / 100;
+      document.getElementById("result").innerText = `Pound per Foot: ${roundedPPF} lbs/ft`;
+
+    }
+  </script>
+</body>
+
+</html>
